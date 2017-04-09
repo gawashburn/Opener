@@ -59,7 +59,12 @@ struct OpenerActions {
 
 class NetExistentialtypeOpenerAction : Action {
   let id = "net.existentialtype.opener"
-  let name = "opener"
+  let name = "Opener"
+  let shortName = "Opener"
+  /* Should find a better choice, but HIG does say 
+   * 'Opens or represents a folder.'
+   */ 
+  let touchBarIcon = NSImage(named: NSImageNameTouchBarFolderTemplate)
   
   func isApplicable(context: ActionContext) -> Bool {
     return true

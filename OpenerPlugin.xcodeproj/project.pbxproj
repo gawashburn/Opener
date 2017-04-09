@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -102,8 +102,8 @@
 					};
 				};
 			};
-			buildConfigurationList = 2C0DB2A91E7B63E200FD3AD5 /* Build configuration list for PBXProject "Opener" */;
-			compatibilityVersion = "Xcode 3.2";
+			buildConfigurationList = 2C0DB2A91E7B63E200FD3AD5 /* Build configuration list for PBXProject "OpenerPlugin" */;
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -242,6 +242,7 @@
 				INFOPLIST_FILE = OpenerPlugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.existentialtype.Opener;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
@@ -264,6 +265,7 @@
 				INFOPLIST_FILE = OpenerPlugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.existentialtype.Opener;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
@@ -275,7 +277,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2C0DB2A91E7B63E200FD3AD5 /* Build configuration list for PBXProject "Opener" */ = {
+		2C0DB2A91E7B63E200FD3AD5 /* Build configuration list for PBXProject "OpenerPlugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2C0DB2B21E7B63E200FD3AD5 /* Debug */,
