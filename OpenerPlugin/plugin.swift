@@ -6,6 +6,7 @@ public class NetExistentialtypeOpenerPlugin : NSObject, Plugin, ActionProvider {
   public let name = "opener"
   public let author = "Geoffrey Washburn"
   public let email = "washburn@acm.org"
+  public let requiredApiVersion = ApiVersion.forMartaVersion(release: 0, major: 2)
   
   public var actions: [Action] {
     return [ NetExistentialtypeOpenerAction() ]
