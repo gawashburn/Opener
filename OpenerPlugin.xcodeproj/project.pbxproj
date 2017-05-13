@@ -19,6 +19,7 @@
 		2C0DB2B91E7B641100FD3AD5 /* MartaApi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MartaApi.framework; path = Frameworks/MartaApi.framework; sourceTree = "<group>"; };
 		2C0DB2BA1E7B641100FD3AD5 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Frameworks/SwiftyJSON.framework; sourceTree = "<group>"; };
 		2C0DB2BD1E7B642400FD3AD5 /* plugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = plugin.swift; sourceTree = "<group>"; };
+		B586669CAF58FB9F8CCA4037 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +43,7 @@
 				2C0DB2B01E7B63E200FD3AD5 /* Opener */,
 				2C0DB2AF1E7B63E200FD3AD5 /* Products */,
 				2C0DB2B71E7B640A00FD3AD5 /* Frameworks */,
+				B586669CAF58FB9F8CCA4037 /* README.md */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -242,7 +244,6 @@
 				INFOPLIST_FILE = OpenerPlugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.existentialtype.Opener;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
@@ -265,7 +266,6 @@
 				INFOPLIST_FILE = OpenerPlugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.existentialtype.Opener;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
