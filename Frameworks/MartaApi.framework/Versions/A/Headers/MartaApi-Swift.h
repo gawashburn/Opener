@@ -132,11 +132,16 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # define SWIFT_DEPRECATED_MSG(...) __attribute__((deprecated(__VA_ARGS__)))
 #endif
 #if defined(__has_feature) && __has_feature(modules)
+@import Foundation;
 @import AppKit;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+
+@interface NSInputStream (SWIFT_EXTENSION(MartaApi))
+@end
+
 
 @interface NSColor (SWIFT_EXTENSION(MartaApi))
 /// Get the hex String value for this <code>NSColor</code>.
@@ -160,6 +165,22 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @property (nonatomic, readonly) BOOL isCommand;
 @property (nonatomic, readonly) BOOL isOption;
 @property (nonatomic, readonly) BOOL isAnyModifier;
+@end
+
+
+@interface NSView (SWIFT_EXTENSION(MartaApi))
+@end
+
+
+@interface NSViewController (SWIFT_EXTENSION(MartaApi))
+@end
+
+
+@interface NSThread (SWIFT_EXTENSION(MartaApi))
+/// Crash if the current thread is not the main (UI) thread.
++ (void)assertIsInMainThread;
+/// Crash if the current thread <em>is</em> the main (UI) thread.
++ (void)assertIsInBackgroundThread;
 @end
 
 #pragma clang diagnostic pop
