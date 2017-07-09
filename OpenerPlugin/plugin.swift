@@ -15,7 +15,11 @@ public class NetExistentialtypeOpenerPlugin : NSObject, Plugin, ActionProvider {
 }
 
 class NetExistentialtypeOpenerAction : Action {
-  let id = "net.existentialtype.opener"
+  // Define the id statically so that inner static methods can
+  // refer to it without an instance
+  private static let commonId = "net.existentialtype.opener"
+  let id = commonId
+
   let name = "Opener"
   let shortName = "Opener"
 
@@ -54,15 +58,20 @@ class NetExistentialtypeOpenerAction : Action {
                                errAlert: Bool) -> Action  {
       // Seems like there must be a nicer pattern here?
       if let act = actions[name] {
-        return act
+        // Check that the action isn't Opener itself
+        if (act.id != NetExistentialtypeOpenerAction.commonId) {
+          return act
+        }
+        ActionCache.errAlert(msg:
+          "Opener Plugin: Cannot proxy through itself, using the " + defName + " action of '" + def + "'.", show: errAlert)
       } else {
         // Marta doesn't load the plugin if I use string interpolation instead of +? What is going on?
         ActionCache.errAlert(msg:
           "Opener Plugin: There is no action named '" + name + "', using the " + defName + " action of '" + def + "'.", show: errAlert)
-        // The default fallbacks should always exist unless Marta itself changes,
-        // so forcing the unwrapping should be safe.
-        return actions[def]!
       }
+      // The default fallbacks should always exist unless Marta itself changes,
+      // so forcing the unwrapping should be safe.
+      return actions[def]!
     }
 
     init(context: GlobalContext) {
@@ -101,7 +110,13 @@ class NetExistentialtypeOpenerAction : Action {
       var tmpExtMap: [String : Action] = [String : Action]()
       extMapNames.forEach { (ext, actName) in
         if let act = actRepo[actName] {
-          tmpExtMap[ext]=act
+          // Check that the action isn't Opener itself
+          if (act.id != NetExistentialtypeOpenerAction.commonId) {
+            tmpExtMap[ext]=act
+          } else {
+            ActionCache.errAlert(msg:
+              "Opener Plugin: Cannot proxy through itself, ignoring the definition for '" + ext + "'.", show: errAlerts)
+          }
         } else {
           // Marta doesn't load the plugin if I use string interpolation instead of +? What is going on?
           ActionCache.errAlert(msg:
