@@ -160,10 +160,15 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 
 @interface NSEvent (SWIFT_EXTENSION(MartaApi))
+/// True if the shift modifier is pressed.
 @property (nonatomic, readonly) BOOL isShift;
+/// True if the control modifier is pressed.
 @property (nonatomic, readonly) BOOL isControl;
+/// True if the command modifier is pressed.
 @property (nonatomic, readonly) BOOL isCommand;
+/// True if the option modifier is pressed.
 @property (nonatomic, readonly) BOOL isOption;
+/// True if any of these modifiers is pressed: option, command, control, shift.
 @property (nonatomic, readonly) BOOL isAnyModifier;
 @end
 
