@@ -36,6 +36,9 @@ In the event that you do not supply a configuration, it defaults to
 If you wish to specify an action for a file with no extension, you can
 use the empty string "".
 
+It is not possible to recursively proxy through the Opener plugin action, 
+`net.existentialtype.opener"`.
+
 Currently, the semantics of Opener is the that given a some set of
 selected files and a current file (the one currently under the cursor),
 if 
