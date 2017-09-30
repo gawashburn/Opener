@@ -9,18 +9,19 @@ So using the "core.open" action doesn't offer the behavior I would like.
 However, just using "core.open.with" as my default isn't ideal either,
 because I really don't want to bring up a menu just to traverse directories.
 
-So this plugin lets you select a choice of action for directories,
-actions based upon file extensions, and finally a default action to fallback 
-upon.
+So this plugin lets you select a choice of action for directories, 
+applications, packages, and files based upon their extensions.  Finally a 
+default action can be chosen to fallback upon.
 
 A simple configuration for opener looks like
 ```json
     "behavior": {
-        
         "actions": {
             "net.existentialtype.opener": {
                 "errorAlerts": true,
                 "directoryAction": "core.open",
+                "applicationAction": "core.open",
+                "packageAction": "core.open.with",
                 "extensionActions": {
                     "txt": "core.edit",
                     "sh": "core.get.info"
@@ -30,8 +31,9 @@ A simple configuration for opener looks like
         }
     }
 ```
-In the event that you do not supply a configuration, it defaults to 
-`core.open` for directories and `core.open.with` for everything else.
+In the event that you do not supply a configuration, it defaults to using
+`core.open` for directories and applications and `core.open.with` for 
+everything else.
 
 If you wish to specify an action for a file with no extension, you can
 use the empty string "".
@@ -42,6 +44,8 @@ It is not possible to recursively proxy through the Opener plugin action,
 Currently, the semantics of Opener is the that given a some set of
 selected files and a current file (the one currently under the cursor),
 if 
+  * the current file is an application, the `applicationAction` is used.
+  * the current file is a package, the `packageAction` is used.
   * the current file is a directory, the `directoryAction` is used.  
   * there are selected files, they will be divvied up into buckets by
     their file extension if they are found in `extensionActions`.
@@ -61,7 +65,7 @@ current file.  One option would be to instead apply each selected file
 individually.  That is less than ideal in some cases, as for some
 actions it might make sense to operate on multiple files simultaneously.
 
-It may also make more sense to group selected files and apply them by
+It may also make more sense to consolidate selected files and apply them by
 action, rather than by extension.  For example if more than one
 extension is assigned to `core.edit`, we should probably apply all of
 them together rather than separately.  

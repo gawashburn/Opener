@@ -26,17 +26,18 @@ class NetExistentialtypeOpenerAction : Action {
   // We determine the Touch Bar icon in init.
   var touchBarIcon: NSImage?
 
+  typealias Config = NetExistentialtypeOpenerConfiguration
+
   // Structure to hold all the Actions Opener may use.
   private struct ActionCache {
 
-    let directoryAction: Action
-    let defaultAction: Action
+    let specialActions: [String: Action]
     let extMap: [String : Action]
 
     func extAction(ext: String) -> Action {
       // Check if there is a specified action for this file extension.
       // Otherwise, use the default action.
-      return extMap[ext] ?? defaultAction
+      return extMap[ext] ?? specialActions[Config.defaultActionName]!
     }
 
     // Helper to pop up an alert
@@ -63,11 +64,14 @@ class NetExistentialtypeOpenerAction : Action {
           return act
         }
         ActionCache.errAlert(msg:
-          "Opener Plugin: Cannot proxy through itself, using the " + defName + " action of '" + def + "'.", show: errAlert)
+          "Opener Plugin: Cannot proxy through itself, using the " + defName +
+              " action of '" + def + "'.", show: errAlert)
       } else {
-        // Marta doesn't load the plugin if I use string interpolation instead of +? What is going on?
+        // Marta doesn't load the plugin if I use string interpolation instead
+        // of +? What is going on?
         ActionCache.errAlert(msg:
-          "Opener Plugin: There is no action named '" + name + "', using the " + defName + " action of '" + def + "'.", show: errAlert)
+          "Opener Plugin: There is no action named '" + name + "', using the " +
+              defName + " action of '" + def + "'.", show: errAlert)
       }
       // The default fallbacks should always exist unless Marta itself changes,
       // so forcing the unwrapping should be safe.
@@ -75,36 +79,38 @@ class NetExistentialtypeOpenerAction : Action {
     }
 
     init(context: GlobalContext) {
-      typealias Config = NetExistentialtypeOpenerConfiguration
+      let errAlerts = context.get(Config.errorAlerts)
 
       let actRepo = context.actionRepository
 
-      let dirActKey = Config.directoryActionName
-      let defActKey = Config.defaultActionName
+      // Specialized actions
+      let keys: [(String, ConfigurationKey<String>, String)] = [
+        // FIX?? Seems like there should be a way to go from the key to its
+        // name? Or get they key from its name?
+        (Config.directoryActionName, Config.directoryAction, "default directory"),
+        (Config.applicationActionName, Config.applicationAction, "default application"),
+        (Config.packageActionName, Config.packageAction, "default package"),
+        (Config.defaultActionName, Config.defaultAction, "default")
+      ]
 
-      let errAlerts = context.get(Config.errorAlerts)
+      // Fetch the specialized actions we'll be using.
+      var tmpSpecialActions: [String: Action] = [:]
+      for (name, key, defName) in keys {
+        // Look up the name of the action to use for the given key
+        let actName = context.get(key)
 
-      // Look up the names of the actions to use.
+        tmpSpecialActions[name] = ActionCache.lookup(
+            actions: actRepo,
+            name: actName,
+            defName: defName,
+            def: key.defaultValue!,
+            errAlert: errAlerts)
+      }
+      specialActions = tmpSpecialActions
 
-      let dirActName = context.get(dirActKey)
-      let defActName = context.get(defActKey)
+      // Look up all the other actions specified by extension
+
       let extMapNames = context.get(Config.extensionActionMap)
-
-      // Fetch the actions we'll be using.
-
-      directoryAction = ActionCache.lookup(
-              actions: actRepo,
-              name: dirActName,
-              defName: "default directory",
-              def: dirActKey.defaultValue!,
-              errAlert: errAlerts)
-
-      defaultAction = ActionCache.lookup(
-              actions: actRepo,
-              name: defActName,
-              defName: "default",
-              def: defActKey.defaultValue!,
-              errAlert: errAlerts)
 
       // Need to use temporary as we can't assign directly to extMap?
       var tmpExtMap: [String : Action] = [String : Action]()
@@ -115,12 +121,15 @@ class NetExistentialtypeOpenerAction : Action {
             tmpExtMap[ext]=act
           } else {
             ActionCache.errAlert(msg:
-              "Opener Plugin: Cannot proxy through itself, ignoring the definition for '" + ext + "'.", show: errAlerts)
+              "Opener Plugin: Cannot proxy through itself, ignoring the definition for '" +
+                  ext + "'.", show: errAlerts)
           }
         } else {
-          // Marta doesn't load the plugin if I use string interpolation instead of +? What is going on?
+          // Marta doesn't load the plugin if I use string interpolation instead
+          // of +? What is going on?
           ActionCache.errAlert(msg:
-            "Opener Plugin: There is no action named '" + actName + "', ignoring the definition for '" + ext + "'.", show: errAlerts)
+            "Opener Plugin: There is no action named '" + actName +
+                "', ignoring the definition for '" + ext + "'.", show: errAlerts)
         }
       }
       extMap = tmpExtMap
@@ -183,7 +192,17 @@ class NetExistentialtypeOpenerAction : Action {
     if let item = model.currentItem {
       // First check to see if we are trying to open a directory.
       if (item.isDirectory || item is GoUpVirtualFile) {
-        actions.directoryAction.apply(context: context)
+        // Next check that this directory isn't also an Application or Package
+        if let localFile = item as? LocalFile {
+          if (localFile.isApplication) {
+            actions.specialActions[Config.applicationActionName]!.apply(context: context)
+            return
+          } else if (localFile.isPackage) {
+            actions.specialActions[Config.packageActionName]!.apply(context: context)
+            return
+          }
+        }
+        actions.specialActions[Config.directoryActionName]!.apply(context: context)
         return
       }
     }
@@ -228,7 +247,7 @@ class NetExistentialtypeOpenerAction : Action {
         let newModel = OpenerModel(itemIndicies: defaultIndicies, delegate: model)
         let newContext = context.clone(newModelForActiveTab: newModel)
 
-        actions.defaultAction.apply(context: newContext)
+        actions.specialActions[Config.defaultActionName]!.apply(context: newContext)
       }
 
     // Otherwise, just act on the current item, which does not require
@@ -267,11 +286,22 @@ class NetExistentialtypeOpenerConfiguration : ConfigurationSlice {
   private init() {}
   
   static let basePath = "behavior|actions|net.existentialtype.opener"
-  
+
+  /** The action to use for applications. */
+  static let applicationActionName = "applicationAction"
+  static let applicationAction = stringKey(applicationActionName, "core.open")
+
+  /** The action to use for packages. */
+  static let packageActionName = "packageAction"
+  static let packageAction = stringKey(packageActionName, "core.open.with")
+
   /** The action to use for directories. */
-  static let directoryActionName = stringKey("directoryAction", "core.open")
+  static let directoryActionName = "directoryAction"
+  static let directoryAction = stringKey(directoryActionName, "core.open")
+
   /** The action to use for everything else. */
-  static let defaultActionName = stringKey("defaultAction", "core.open.with")
+  static let defaultActionName = "defaultAction"
+  static let defaultAction = stringKey(defaultActionName, "core.open.with")
   
   /** Mapping from extensions to chosen actions. */
   static let extensionActionMap = mapKey("extensionActions", [])

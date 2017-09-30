@@ -1,3 +1,4 @@
 framework module MartaApi {
     header "MartaApi-Swift.h"
+    requires objc
 }
