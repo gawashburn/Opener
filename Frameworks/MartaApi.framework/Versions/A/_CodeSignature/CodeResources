@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		C6dPm1538YK+MnpBHAFSoh2Xl30=
+		H0/C5HJyODAXzVwpklOYpupwkbA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,11 +15,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4NY4oEneEsSBWRx5SL19vAZ1q9E=
+			QXs6ETA0zxo4TFYUbJa8gBbiIZI=
 			</data>
 			<key>hash2</key>
 			<data>
-			bU2d36Oztnsu7+FRIZdl38iKpb1veGlLG0nik0n9Uo4=
+			SR9KawsWu17i4FZo3/tS0tMyXJ2JzyT5jXY/Q2QYMMg=
 			</data>
 		</dict>
 		<key>Headers/marta-api.h</key>
@@ -37,22 +37,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LEjJjvxHJmWTrEFNPYTIuyO2nac=
+			M0slNFac6hFvE1edBGLzkvwY/+A=
 			</data>
 			<key>hash2</key>
 			<data>
-			xljmBKDx662SKyVgTkPwvsqgYaUj1TJx8SJ8YvoIogA=
+			JPoq1L4y6iaPOeieokt+m5YtWK8xHUYj7k6cZBSbNSU=
 			</data>
 		</dict>
 		<key>Modules/MartaApi.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			VJspHuswFSJm9mZglPji0InEDC0=
+			qKiWcu147lfW+gSU3bfUcMxjFgs=
 			</data>
 			<key>hash2</key>
 			<data>
-			Oy8xSdsaPg43ond1zcAULnVAhR9ZrK9ccUvKIf5tsp0=
+			3McLoFMwWUK0SHoCUCUXYEMCJEYymRfS3dKyU41LPgg=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -70,11 +70,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			C6dPm1538YK+MnpBHAFSoh2Xl30=
+			H0/C5HJyODAXzVwpklOYpupwkbA=
 			</data>
 			<key>hash2</key>
 			<data>
-			BptfO3Xwy/aopqqUj/JxJkwsfIRvfNgoxDNOd0k9HxU=
+			fR91YT7XbhicnZGbou1AvGD537vaCaxNcSuwJUGfDVY=
 			</data>
 		</dict>
 	</dict>

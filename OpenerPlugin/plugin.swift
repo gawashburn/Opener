@@ -7,7 +7,7 @@ public class NetExistentialtypeOpenerPlugin : NSObject, Plugin, ActionProvider {
   public let author = "Geoffrey Washburn"
   public let email = "washburn@acm.org"
 
-  public let requiredApiVersion = ApiVersion(major: 4, minor: 0)
+  public let requiredApiVersion = ApiVersion(major: 4, minor: 5)
   
   public var actions: [Action] {
     return [ NetExistentialtypeOpenerAction() ]
@@ -166,7 +166,7 @@ class NetExistentialtypeOpenerAction : Action {
     if #available(macOS 10.12.2, *) {
       // Should find a better choice, but HIG does say
       // 'Opens or represents a folder.'
-      touchBarIcon = NSImage(named: NSImageNameTouchBarFolderTemplate)
+      touchBarIcon = NSImage(named: NSImage.Name.touchBarFolderTemplate)
       // Otherwise, use protocol default.
     } else {
       touchBarIcon = (self as Action).touchBarIcon
@@ -264,7 +264,7 @@ class MapConfigurationKey : ConfigurationKey<[(String, String)]> {
   public override func map(_ json: Json) -> [(String, String)]? {
     var map: [(String, String)] = []
     for (key,subJson):(String, JSON) in json as! JSON {
-      map.append(key, subJson.stringValue)
+      map.append((key, subJson.stringValue))
     }
     return map
   }
